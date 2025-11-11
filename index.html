@@ -31,44 +31,82 @@
   <script src="./static/js/bulma-slider.min.js"></script>
   <script src="./static/js/index.js"></script>
   
-  <!-- Vendor Stylesheets -->
-  <!--=================js==========================-->
   <link rel="stylesheet" href="static/css/tab_gallery.css">
   <link rel="stylesheet" href="static/css/juxtapose.css">
-  <!-- <script src="./static/js/index.js"></script> -->
-  <!-- <link rel="stylesheet" href="./menlo"> -->
   <link rel="stylesheet" href="static/css/image_card_fader.css">
   <link rel="stylesheet" href="static/css/image_card_slider.css">
 
-  <!-- <style>
-    /* Cool infinite background scrolling animation. */
-    @import url('https://fonts.googleapis.com/css?family=Exo:100');
-
-    /* Background data (Original source: https://subtlepatterns.com/grid-me/) */
-    body {
-      margin-top: 0rem;
-      color: #999;
-      font: 400 16px/1.5 'Exo', ubuntu, "Segoe UI", helvetica, arial, sans-serif;
+  <style>
+    .pagination-dots {
       text-align: center;
-      background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAIAAACRXR/mAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAIGNIUk0AAHolAACAgwAA+f8AAIDpAAB1MAAA6mAAADqYAAAXb5JfxUYAAABnSURBVHja7M5RDYAwDEXRDgmvEocnlrQS2SwUFST9uEfBGWs9c97nbGtDcquqiKhOImLs/UpuzVzWEi1atGjRokWLFi1atGjRokWLFi1atGjRokWLFi1af7Ukz8xWp8z8AAAA//8DAJ4LoEAAlL1nAAAAAElFTkSuQmCC") repeat 0 0;
-      zoom: 140%;
-      animation: bg-scrolling-reverse .92s infinite; /* IE 10+ */
-      animation-timing-function: linear;
+      margin-top: 25px;
     }
-
-    @keyframes bg-scrolling-reverse {
-      100% { background-position: 50px 50px; }
+    .dot {
+      cursor: pointer;
+      height: 15px;
+      width: 15px;
+      margin: 0 5px;
+      background-color: #bbb;
+      border-radius: 50%;
+      display: inline-block;
+      transition: background-color 0.6s ease;
     }
-
-    body::before {
-      content: "FLUX-IR";
-      font-size: 8rem;
-      font-weight: 100;
-      font-style: normal;
+    .dot.active, .dot:hover {
+      background-color: #717171;
+    }
+    .tab_column img.selected {
+        border: 3px solid #3273dc;
+        box-shadow: 0 0 10px rgba(50, 115, 220, 0.5);
+    }
+    #juxtapose-embed {
+        margin-top: 20px;
+    }
+    .gallery-wrapper {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 0 15px;
+      box-sizing: border-box;
+    }
+    #juxtapose-embed {
+      width: 100%;
+      height: 600px;
+      margin: 20px 0 0 0;
+    }
+    #thumbnail-container {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: 10px;
+      width: 100%;
+    }
+    .tab_column {
+      flex: 1;
+      min-width: 0;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .tab_column img {
+      width: 100%;
+      height: auto;
+      cursor: pointer;
+      border-radius: 5px;
+      border: 3px solid transparent;
+      transition: all 0.3s ease;
       display: block;
-      margin-bottom: 20px;
     }
-  </style> -->
+    .tab_column span {
+        margin-top: 5px;
+        font-size: 0.9em;
+    }
+    @media (max-width: 830px) {
+        #juxtapose-embed {
+            height: calc((100vw - 30px) * 0.75);
+            min-height: 250px;
+        }
+    }
+  </style>
 
 </head>
 
@@ -93,73 +131,27 @@
 
 
 
-<!--=================Teasers==========================-->
-<section class="hero is-small">
+<!--========================Showing results==============================-->
+<section class="hero is-small" id="gallery-section">
   <div class="hero-body">
     <div class="container is-max-desktop has-text-centered">
-      <!-- The expanding image container -->
-      <div class="tab_container">
-        <!-- Close the image -->
-        <!-- <span onclick="this.parentElement.style.display='none'" class="closebtn">&times;</span> -->
-
-        <!-- Expanded image -->
-        <div id="juxtapose-embed" data-startingposition="30%" data-animate="false" class="juxtapose"
-          style="height: 700px; width: 790px;">
-          <!-- <div class="jx-slider">
-            <div class="jx-handle " style="left: 50%;">
-              <div class="jx-arrow jx-left"></div>
-              <div class="jx-control">
-                <div class="jx-controller" tabindex="0" role="slider" aria-valuenow="50" aria-valuemin="0"
-                  aria-valuemax="100"></div>
-              </div>
-              <div class="jx-arrow jx-right"></div>
-            </div>
-            <div class="jx-image jx-left " style="width: 50%;"><img src="./src/UDC_1.png" alt="">
-              <div class="jx-label" tabindex="0">UDC images</div>
-            </div>
-            <div class="jx-image jx-right " style="width: 50%;"><img src="./src/AF_1.png" alt="">
-              <div class="jx-label" tabindex="0">AlignFormer results</div>
-            </div><a href="https://juxtapose.knightlab.com" target="_blank" rel="noopener" class="jx-knightlab">
-              <div class="knightlab-logo"></div><span class="juxtapose-name">JuxtaposeJS</span>
-            </a>
-          </div> -->
+      
+      <div class="gallery-wrapper">
+        <div class="tab_container">
+          <div id="juxtapose-embed" class="juxtapose">
+          </div>
         </div>
 
-        <div>
-          <div id="juxtapose-hidden"></div>
+        <div id="thumbnail-container">
         </div>
-
-        <!-- Image text -->
-        <div id="imgtext"></div>
       </div>
-
-      <!-- The grid: four columns -->
-      <div class="tab_row">
-        <div class="tab_column">
-          <img src="static/images/SR_lq.png" onclick="tab_gallery_click('SR');">
-		  <span>Super-resolution</span>
-        </div>
-        <div class="tab_column">
-          <img src="static/images/denoising_lq.png" onclick="tab_gallery_click('denoising');">
-		  <span>Denoising</span>
-        </div>
-        <div class="tab_column">
-          <img src="static/images/raindrop_lq.png" onclick="tab_gallery_click('raindrop');">
-		  <span>Raindrop removal</span>
-        </div>
-        <div class="tab_column">
-          <img src="static/images/llie22_lq.png" onclick="tab_gallery_click('llie22');">
-		  <span>Low-light</span>
-        </div>
-        <div class="tab_column">
-          <img src="static/images/desnowing_lq.png" onclick="tab_gallery_click('desnowing');">
-		  <span>Demoiréing</span>
-        </div>
+      
+      <div id="pagination-dots" class="pagination-dots">
       </div>
     </div>
   </div>
 </section>
-
+<!--========================Showing results==============================-->
 
 
 <section class="section">
@@ -228,100 +220,232 @@
 </footer>
 
 <!-- Image Slider Javascripts -->
-<!--=================Functions==========================-->
 <script src="static/js/juxtapose.js"></script>
 
-
+<!-- ==================== 修改后的 JavaScript ==================== -->
 <script>
-  var slider;
-  let origImages = [
-    { "src": "static/images/SR_lq.png", "label": "Zoomed LQ", },
-    { "src": "static/images/SR_hq.png", "label": "Ours", }
-  ];
-  let origOptions = {
-    "makeResponsive": true,
-    "showLabels": true,
-    "mode": "horizontal",
-    "showCredits": true,
-    "animate": true,
-    "startingPosition": "50"
-  };
-
+  // --- 全局变量 ---
+  let slider;
+  let currentPageIndex = 0;
+  let currentThumbnailIndex = 0;
   const juxtaposeSelector = "#juxtapose-embed";
-  const transientSelector = "#juxtapose-hidden";
 
+  // --- 自动翻页相关变量 ---
+  let autoScrollInterval = null;
+  const AUTO_SCROLL_DELAY = 3000;
 
-  function tab_gallery_click(name) {
-    // Get the expanded image
-    let inputImage = {
-      label: "Zoomed LQ",
+  const pagesData = [
+    {
+      pageTitle: "General Restoration",
+      slides: [
+        { id: 'SR', title: 'SR', thumbSrc: 'static/images/SR_lq.png' },
+        { id: 'denoising', title: 'Denoising', thumbSrc: 'static/images/denoising_lq.png' },
+        { id: 'raindrop', title: 'Raindrop', thumbSrc: 'static/images/raindrop_lq.png' },
+        { id: 'llie22', title: 'Low-light', thumbSrc: 'static/images/llie22_lq.png' },
+        { id: 'desnowing', title: 'Demoiréing', thumbSrc: 'static/images/desnowing_lq.png' }
+      ]
+    },
+    {
+      pageTitle: "Advanced Tasks",
+      slides: [
+        { id: 'SR2', title: 'SR', thumbSrc: 'static/images/SR2_lq.png' },
+        { id: 'denoising3', title: 'Denoising', thumbSrc: 'static/images/denoising3_lq.png' },
+        { id: 'raindrop2', title: 'Raindrop', thumbSrc: 'static/images/raindrop2_lq.png' },
+        { id: 'llie2', title: 'Low-light', thumbSrc: 'static/images/llie2_lq.png' },
+        { id: 'desnowing2', title: 'Demoiréing', thumbSrc: 'static/images/desnowing2_lq.png' }
+      ]
+    },
+    {
+      pageTitle: "Advanced Tasks",
+      slides: [
+        { id: 'SR3', title: 'SR', thumbSrc: 'static/images/SR3_lq.png' },
+        { id: 'denoising2', title: 'Denoising', thumbSrc: 'static/images/denoising2_lq.png' },
+        { id: 'raindrop3', title: 'Raindrop', thumbSrc: 'static/images/raindrop3_lq.png' },
+        { id: 'llie3', title: 'Low-light', thumbSrc: 'static/images/llie3_lq.png' },
+        { id: 'desnowing3', title: 'Demoiréing', thumbSrc: 'static/images/desnowing3_lq.png' }
+      ]
+    }
+  ];
+
+  /**
+   * 当点击某个缩略图时调用
+   * @param {string} slideId - 幻灯片的ID
+   * @param {HTMLElement} clickedImgElement - 被点击的图片元素
+   * @param {number} slideIndex - 幻灯片在当前页面的索引
+   */
+  function selectThumbnail(slideId, clickedImgElement, slideIndex = -1) {
+    if (slideIndex !== -1) {
+      currentThumbnailIndex = slideIndex;
+    }
+    
+    document.querySelectorAll('#thumbnail-container img').forEach(img => img.classList.remove('selected'));
+    if (clickedImgElement) {
+      clickedImgElement.classList.add('selected');
+    }
+
+    const slideData = pagesData[currentPageIndex].slides.find(s => s.id === slideId);
+    if (!slideData) return;
+
+    const inputImage = { label: "Zoomed LQ", src: `static/images/${slideId}_lq.png` };
+    const outputImage = { label: "Ours", src: `static/images/${slideId}_hq.png` };
+    const images = [inputImage, outputImage];
+    
+    const options = {
+        "makeResponsive": true,
+        "showLabels": true,
+        "mode": "horizontal",
+        "showCredits": true,
+        "animate": false,
+        "startingPosition": "50"
     };
-    let outputImage = {
-      label: "Ours",
-    };
+    
+    const juxtaposeContainer = document.getElementById(juxtaposeSelector.substring(1));
+    juxtaposeContainer.innerHTML = '';
+    slider = new juxtapose.JXSlider(juxtaposeSelector, images, options);
+  }
 
-    inputImage.src = "static/images/".concat(name, "_lq", ".png")
-    outputImage.src = "static/images/".concat(name, "_hq", ".png")
+  /**
+   * 显示指定页面的内容
+   */
+  function showPage(pageIndex) {
+    if (pageIndex < 0 || pageIndex >= pagesData.length) return;
+    currentPageIndex = pageIndex;
+    currentThumbnailIndex = 0;
 
-    let images = [inputImage, outputImage];
-    let options = slider.options;
-    options.callback = function (obj) {
-      var newNode = document.getElementById(obj.selector.substring(1));
-      var oldNode = document.getElementById(juxtaposeSelector.substring(1));
-      console.log(obj.selector.substring(1));
-      console.log(newNode.children[0]);
-      oldNode.replaceChild(newNode.children[0], oldNode.children[0]);
-      //newNode.removeChild(newNode.children[0]);
+    const pageData = pagesData[pageIndex];
+    const thumbnailContainer = document.getElementById('thumbnail-container');
+    thumbnailContainer.innerHTML = '';
 
-    };
+    pageData.slides.forEach((slide, index) => {
+      const colDiv = document.createElement('div');
+      colDiv.className = 'tab_column';
 
-    slider = new juxtapose.JXSlider(transientSelector, images, options);
-  };
+      const img = document.createElement('img');
+      img.src = slide.thumbSrc;
+      img.onclick = () => {
+        selectThumbnail(slide.id, img, index);
+        stopAutoScroll();
+      };
 
+      const span = document.createElement('span');
+      span.innerText = slide.title;
+
+      colDiv.appendChild(img);
+      colDiv.appendChild(span);
+      thumbnailContainer.appendChild(colDiv);
+    });
+
+    const dots = document.querySelectorAll('.dot');
+    dots.forEach((dot, i) => {
+      dot.classList.toggle('active', i === pageIndex);
+    });
+
+    if (pageData.slides.length > 0) {
+      const firstSlideId = pageData.slides[0].id;
+      const firstImgElement = thumbnailContainer.querySelector('img');
+      selectThumbnail(firstSlideId, firstImgElement, 0);
+    }
+  }
+
+  /**
+   * 自动播放的核心逻辑函数
+   */
+  function autoAdvance() {
+    const currentPageData = pagesData[currentPageIndex];
+    if (!currentPageData || currentPageData.slides.length === 0) return;
+
+    const nextThumbnailIndex = currentThumbnailIndex + 1;
+
+    if (nextThumbnailIndex < currentPageData.slides.length) {
+      const nextSlide = currentPageData.slides[nextThumbnailIndex];
+      const allThumbImgs = document.querySelectorAll('#thumbnail-container img');
+      const nextImgElement = allThumbImgs[nextThumbnailIndex];
+      
+      selectThumbnail(nextSlide.id, nextImgElement, nextThumbnailIndex);
+
+    } else {
+      const nextPageIndex = (currentPageIndex + 1) % pagesData.length;
+      showPage(nextPageIndex);
+    }
+  }
+
+  /**
+   * 开始自动翻页
+   */
+  function startAutoScroll() {
+    // 确保不会创建多个计时器
+    if (autoScrollInterval) return; 
+    autoScrollInterval = setInterval(autoAdvance, AUTO_SCROLL_DELAY);
+  }
+
+  /**
+   * 停止自动翻页
+   */
+  function stopAutoScroll() {
+    clearInterval(autoScrollInterval);
+    autoScrollInterval = null; // 清除引用
+  }
+
+  /**
+   * 初始化函数
+   */
+  function initializeGallery() {
+    const dotsContainer = document.getElementById('pagination-dots');
+    pagesData.forEach((_, index) => {
+      const dot = document.createElement('span');
+      dot.classList.add('dot');
+      dot.onclick = () => {
+        if (currentPageIndex !== index) {
+            showPage(index);
+        }
+        stopAutoScroll();
+      };
+      dotsContainer.appendChild(dot);
+    });
+
+    showPage(0);
+  }
+
+  // 页面加载完成后执行
   (function () {
-    slider = new juxtapose.JXSlider(
-      juxtaposeSelector, origImages, origOptions);
-    //document.getElementById("left-button").onclick = replaceLeft;
-    //document.getElementById("right-button").onclick = replaceRight;
+    initializeGallery();
+
+    // --- [MODIFIED] 自动播放交互逻辑 ---
+    // 为每个交互区域（主图、缩略图、圆点）分别添加事件监听器
+    // 鼠标进入则暂停，离开则恢复
+    const mainImage = document.getElementById('juxtapose-embed');
+    const thumbnails = document.getElementById('thumbnail-container');
+    const dots = document.getElementById('pagination-dots');
+
+    const interactiveElements = [mainImage, thumbnails, dots];
+
+    interactiveElements.forEach(el => {
+        if (el) {
+            el.addEventListener('mouseenter', stopAutoScroll);
+            el.addEventListener('mouseleave', startAutoScroll);
+        }
+    });
+    
+    startAutoScroll();
+
+    // 保留原有的flip-card交互逻辑
+    $(".flip-card").click(function () {
+      console.log("fading in")
+      const div_back = $(this).children().children()[1];
+      const div_front = $(this).children().children()[0];
+      $(div_front).addClass("out").removeClass("in");
+      $(div_back).addClass("in").removeClass("out");
+    });
+
+    $(".flip-card").mouseleave(function () {
+      console.log("fading out")
+      const div_back = $(this).children().children()[1];
+      const div_front = $(this).children().children()[0];
+      $(div_front).addClass("in").removeClass("out");
+      $(div_back).addClass("out").removeClass("in");
+    });
   })();
-  // Get the image text
-  var imgText = document.getElementById("imgtext");
-  // Use the same src in the expanded image as the image being clicked on from the grid
-  // expandImg.src = imgs.src;
-  // Use the value of the alt attribute of the clickable image as text inside the expanded image
-  imgText.innerHTML = name;
-  // Show the container element (hidden with CSS)
-  // expandImg.parentElement.style.display = "block";
-
-  $(".flip-card").click(function () {
-    console.log("fading in")
-    div_back = $(this).children().children()[1]
-    div_front = $(this).children().children()[0]
-    // console.log($(this).children("div.flip-card-back"))
-    console.log(div_back)
-    $(div_front).addClass("out");
-    $(div_front).removeClass("in");
-
-    $(div_back).addClass("in");
-    $(div_back).removeClass("out");
-
-  });
-
-  $(".flip-card").mouseleave(function () {
-    console.log("fading in")
-    div_back = $(this).children().children()[1]
-    div_front = $(this).children().children()[0]
-    // console.log($(this).children("div.flip-card-back"))
-    console.log(div_back)
-    $(div_front).addClass("in");
-    $(div_front).removeClass("out");
-
-    $(div_back).addClass("out");
-    $(div_back).removeClass("in");
-
-  });
 </script>
 
 </body>
 </html>
-
